@@ -7,38 +7,27 @@ import { ContactService } from '../contact.service';
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.css']
 })
-export class ListComponent implements OnInit{
+export class ListComponent implements OnInit {
 
-  contacts?: Contact[];
+  contacts: Contact[] = [];
 
   constructor(private contactService: ContactService) { }
 
-  ngOnInit() {
-    this.getContacts();
-  }
-
-  getContacts() {
+  ngOnInit(): void {
     this.contactService.getContacts().subscribe(
       (data: Contact[]) => {
         this.contacts = data;
-      },
-      (error) => {
-        console.error('Une erreur est survenue lors de la récupération des contacts:', error);
+        console.log(this.contacts);
       }
     );
   }
 
-  editContact(contactId: number) {
-    // Logique pour la navigation vers la page de modification du contact avec l'ID contactId
-  }
-
   deleteContact(contactId: number) {
-    // Logique pour supprimer le contact avec l'ID contactId
-  }
-
-  viewContact(contactId: number) {
-    // Logique pour la navigation vers la page de détails du contact avec l'ID contactId
+    this.contactService.deleteContact(contactId).subscribe(
+      () => {
+        this.contacts = this.contacts.filter(item => item.id !== contactId);
+        console.log('Contact supprimé avec succès!');
+      }
+    );
   }
 }
-
-

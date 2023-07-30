@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ContactService } from '../contact.service';
 import { Contact } from '../contact';
+import { FormGroup, FormControl, Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-create',
@@ -9,29 +10,31 @@ import { Contact } from '../contact';
   styleUrls: ['./create.component.css']
 })
 export class CreateComponent implements OnInit {
-  newContact: Contact = {
-    id: 0,
-    nom: '',
-    prenom: '',
-    adresse: '',
-    email: '',
-    telephone: '',
-    description: ''
-  };
+
+  form!: FormGroup;
 
   constructor(private router: Router, private contactService: ContactService) { }
 
-  ngOnInit() {}
+  ngOnInit() : void {
+    this.form = new FormGroup({
+      nom: new FormControl('', [Validators.required]),
+      prenom: new FormControl('', [Validators.required]),
+      adresse: new FormControl('', [Validators.required]),
+      email: new FormControl('', [Validators.required]),
+      telephone: new FormControl('', [Validators.required]),
+      description: new FormControl('', [Validators.required])
+    });
+  }
 
-  createContact() {
-    this.contactService.createContact(this.newContact).subscribe(
-      () => {
-        console.log('Contact créé avec succès');
-        this.router.navigate(['/contact', this.newContact.id, 'view']);
-      },
-      (error: any) => {
-        console.error('Une erreur est survenue lors de la création du contact:', error);
-      }
-    );
+  get f(){
+    return this.form.controls;
+  }
+
+  submit(){
+    console.log(this.form.value);
+    this.contactService.createContact(this.form.value).subscribe(res => {
+         console.log('Contact créé avec succès!');
+         this.router.navigateByUrl('/list');
+    })
   }
 }

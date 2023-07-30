@@ -3,35 +3,35 @@
   
   <a href="#" routerLink="/contacts" class="btn btn-primary">Back</a>
   <br><br>
-  <form (submit)="createContact()">
+  <form [formGroup]="form" (ngSubmit)="submit()">
     <div class="form-group">
       <label for="nom">Nom :</label>
-      <input type="text" id="nom" name="nom" class="form-control" [(ngModel)]="newContact.nom" required>
+      <input formControlName="nom" type="text" id="nom" name="nom" class="form-control" required>
     </div>
   
     <div form-group>
       <label for="prenom">Prénom :</label>
-      <input type="text" id="prenom" name="prenom" class="form-control" [(ngModel)]="newContact.prenom" required>
+      <input formControlName="prenom" type="text" id="prenom" name="prenom" class="form-control" required>
     </div>
   
     <div form-group>
       <label for="adresse">Adresse :</label>
-      <input type="text" id="adresse" name="adresse" class="form-control" [(ngModel)]="newContact.adresse" required>
+      <input formControlName="adresse" type="text" id="adresse" name="adresse" class="form-control" required>
     </div>
   
     <div form-group>
       <label for="email">Email :</label>
-      <input type="email" id="email" name="email" class="form-control" [(ngModel)]="newContact.email" required>
+      <input formControlName="email" type="email" id="email" name="email" class="form-control" required>
     </div>
   
     <div form-group>
       <label for="telephone">Téléphone :</label>
-      <input type="tel" id="telephone" name="telephone" class="form-control" [(ngModel)]="newContact.telephone" required>
+      <input formControlName="telephone" type="tel" id="telephone" name="telephone" class="form-control" required>
     </div>
   
     <div form-group>
       <label for="description">Description :</label>
-      <textarea id="description" name="description" class="form-control" [(ngModel)]="newContact.description" required></textarea>
+      <textarea formControlName="description" id="description" name="description" class="form-control" required></textarea>
     </div>
     <br>
     <button class="btn btn-primary" type="submit">Créer</button>

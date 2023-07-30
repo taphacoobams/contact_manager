@@ -9,23 +9,15 @@ import { Contact } from '../contact';
   styleUrls: ['./view.component.css']
 })
 export class ViewComponent implements OnInit {
+  id!: number;
   contact!: Contact;
 
   constructor(private route: ActivatedRoute, private contactService: ContactService) { }
 
-  ngOnInit() {
-    this.getContactDetails();
-  }
-
-  getContactDetails() {
-    const contactId = +this.route.snapshot.paramMap.get('contactid')!;
-    this.contactService.viewContact(contactId).subscribe(
-      (data: Contact) => {
-        this.contact = data;
-      },
-      (error: any) => {
-        console.error('Une erreur est survenue lors de la récupération des détails du contact:', error);
-      }
-    );
-  }
+  ngOnInit(): void {
+    this.id = this.route.snapshot.params['contactId'];    
+    this.contactService.viewContact(this.id).subscribe((data: Contact)=>{
+      this.contact = data;
+    });
+  }  
 }
